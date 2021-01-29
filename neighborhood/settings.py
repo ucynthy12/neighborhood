@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+cloudinary.config( 
+  cloud_name="ucynthy12", 
+  api_key="665653842125479",
+  api_secret="gtDPJAZGiR3JAizrf6Qk7DTL6Lg",
+  secure =True,
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary', 
+    'hood'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +83,10 @@ WSGI_APPLICATION = 'neighborhood.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'hood',
+        'USER': 'cynthia',
+    'PASSWORD':'zion',
     }
 }
 
@@ -105,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Kigali'
 
 USE_I18N = True
 
