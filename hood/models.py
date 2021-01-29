@@ -15,9 +15,10 @@ class Hood(models.Model):
     )
     name = models.CharField(max_length=200)
     image = CloudinaryField('image')
-    residents = models.CharField(max_length=200)
+    residents = models.IntegerField(blank=True)
     location = models.CharField(max_length=200,choices=locations)
-
+    police=models.IntegerField(null=True,blank=True)
+    hospital = models.IntegerField(null=True,blank=True)
     class Meta:
         ordering =['-pk']
 
@@ -33,6 +34,7 @@ class Hood(models.Model):
     @classmethod
     def update_neighborhood(cls,id,name):
         return cls.objects.filter(id =id).update(name=name)
+    @classmethod
     def update_occupants(cls,id,name):
         return cls.objects.filter(id =id).update(name=name)
 
@@ -78,8 +80,8 @@ class Business(models.Model):
     name= models.CharField(max_length=200)
     email= models.EmailField(max_length=300)
     description = models.TextField(blank=True)
-    neighborhood = models.ForeignKey(Hood,on_delete=models.CASCADE,related_name='business')
-    user = models.ForeignKey(Profile,on_delete =models.CASCADE,related_name='owner')
+    hood = models.ForeignKey(Hood,on_delete=models.CASCADE,related_name='business')
+    user = models.ForeignKey(User,on_delete =models.CASCADE,related_name='owner')
 
     def __str__(self):
         return f'{self.name} Business'
@@ -91,7 +93,11 @@ class Business(models.Model):
         self.delete()
     
     @classmethod
-    def search_business(self,search_term):
+    def search_business(cls,search_term):
         return cls.objects.filter(name__icontains = search_term).all()
+    
+    @classmethod
+    def updated_business(cls,id,name):
+        return cls.objects.filter(id =id).update(name=name)
 
- 
+
