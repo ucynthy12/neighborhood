@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static%}
+{% block content %}
+<div class="container-fluid" style="background:url(https://res.cloudinary.com/ucynthy12/image/upload/v1612219364/screen-shot-2017-11-30-at-1-48-12-pm_zzdnv2.png);background-size: cover;background-position: center;background-repeat: no-repeat; height:70vh;" >
+
+</div>
+<div class="jumbotron-fluid" style=" background-color:white;padding-top: 3%;padding-bottom: 2%;">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <h3 class="text-center " style="font-family: 'Hind Siliguri', sans-serif;font-weight: bolder;">
+                Get the most out of your neighborhood with My Neighborhood
+            </h3>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <p class="text-center mt-3">It's where communities come together to greet newcomers, exchange
+                recommendations, and read the latest local news. Where neighbors support local businesses and get
+                updates from public agencies.Welcome, neighbor.
+            </p>
+
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <div class="row">
+        <h2 class="center"></h2>
+        {% for hood in hoods %}
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <a href="{% url 'hood' hood.id %}">
+                <h5 class=" text-center"> <strong><i class="fas fa-map-marker-alt"></i> {{ hood.location }} </strong></h5>
+
+                <div class="card">
+                    <img src=" {{ hood.image.url }}" class="card-img" >
+                    
+
+                </div>
+            </a>
+
+
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
