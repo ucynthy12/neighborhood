@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style="margin-top: 7%;">
+    {% if searched %}
+    <h5 class="text-center mt-3" style="font-family: 'Open Sans Condensed', sans-serif;">Found {{searched.count}} business{{ searched|pluralize }}</h5>
+    <a class="d-block mx-auto" href="/">
+        <button class="btn btn-sm btn-info d-block mx-auto">Back Home</button>
+    </a>
+    <hr style="width: 60%;">
+    {% for post in searched %}
+
+    <div class="container mt-3 " style="font-family: 'Hind Siliguri', sans-serif;">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <a href="{% url 'hood' post.id %}" style="text-decoration:none;color:black">
+                    <div class="card mb-3" style="border: 1px solid white;box-shadow: 0 1px #FFFFFF inset, 0 1px 3px rgba(34, 25, 25, 0.4);">
+                        <img class="card-img-top"  src="{{post.image.url}}" alt="{{post.title}}" >
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-family: 'Yeseva One', cursive ;font-size: 25px;">
+                                {{post.name|title}}<span class="float-right"></span>
+                            </h5>
+                            <h6 class="card-subtitle mt-3">Posted By:&nbsp;<span
+                                    style="color: rgb(9, 110, 97);font-weight: bold;">{{post.user|title}}&nbsp;&nbsp;
+                                </span></h6>
+                            <p class="card-text mt-4 mb-3"
+                                style="font-size:20px">
+                                {{post.description}}</p>
+        
+                        </div>
+        
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        
+    </div>
+
+    {% endfor %}
+</div>
+{% else %}
+<h4 class="text-center mt-3"  style="font-family: 'Open Sans Condensed', sans-serif;">Found 0 Business with the name you searched </h4>
+<a class="d-block mx-auto" href="/">
+    <button class="btn btn-sm btn-info d-block mx-auto">Back Home</button>
+</a>
+{% endif %}
+</div>
+
+
+{% endblock %}
