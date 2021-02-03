@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static%}
+{% block content %}
+<div class="container-fluid"
+    style="background:url({{hood.image.url}});background-position: center;background-size: cover; background-repeat: no-repeat;height: 90vh;">
+</div>
+
+<div class="jumbotron">
+    <h5 class="text-center" style="font-family: 'Montserrat', sans-serif;"><i class="fas fa-map-marker-alt "></i>
+        {{hood.location|title}}&nbsp;
+        <span><strong>/{{hood.population.count}}</strong>&nbsp; Member{{hood.population.count|pluralize}}</span>
+    </h5>
+    <p class="text-center" style="font-family: 'Hind Siliguri', sans-serif;">{{hood.description}}</p>
+    {% if request.user.profile.hood == hood %}
+    <a href="{% url 'leave' hood.id %}" class="btn btn-outline-danger btn-sm float-right">Leave Hood</a>
+    {% elif not request.user.profile.hood %}
+    <a href="{% url 'join' hood.id %}" class="btn btn-primary btn-sm float-right">Join Hood</a>
+    {% endif %}
+</div>
+<div class="container" style="font-family: 'Hind Siliguri', sans-serif;">
+    <div class="card mb-3" style="background-color:rgb(1, 1, 75);color:white">
+        <div class="card-title text-center mt-1">
+            <h4 style="text-transform: uppercase;">Emergency contact</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 text-center"
+                    style="border:1px solid rgb(0, 0, 49);border-radius:10px;background-color:rgb(0, 0, 49)">
+                    <h5 class="text-center">Health Care Department</h5>
+                    <hr>
+
+                    <h6 class="mt-2"><strong>Contact Information</strong></h6>
+
+                    <p><i class="fas fa-map-marker-alt"></i> {{hood.name}} Main Road</p>
+                    <hr>
+                    <p><i class="fas fa-phone"></i>Emergency contact: {{hood.hospital}}</p>
+                    <hr>
+
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 text-center ml-4"
+                    style="border:1px solid rgb(0, 0, 49);border-radius:10px;background-color:rgb(0, 0, 49)">
+                    <h5>Police Department</h5>
+                    <hr>
+
+                    <h6 class="mt-2"><strong>Contact Information</strong></h6>
+
+                    <p><i class="fas fa-map-marker-alt"></i> {{hood.location}} Main Road</p>
+                    <hr>
+                    <p><i class="fas fa-phone"></i>Emergency contact: {{hood.police}}</p>
+                    <hr>
+                </div>
+
+                <div class="col-lg-2"></div>
+
+            </div>
+            <p class="card-text text-right mt3">Admin: <small class="text-muted">
+                    {{ hood.admin.user.username|title }}</small></p>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-5"style="font-family: 'Hind Siliguri', sans-serif;">
+
+    <h5 class="text-center"><strong style="text-transform: uppercase;">Business in {{hood.location}}</strong>&nbsp;/<small><a
+                href="{% url 'upload_busines' hood.id %}"><i class="fas fa-plus-square"></i>Add a
+                business</a></small></h5>
+    <hr class="mb-3">
+    <div class="card-columns">
+        {% if businesses %}
+        {% for business in businesses %}
+        <div class="card">
+            <img class="card-img-top" src="{{business.image.url}}" alt="{{business.name}}">
+            <div class="card-body">
+                <h5 class="card-title font-weight-bold text-center">{{business.name|title}}</h5>
+                <p class="card-text">{{business.description}}</p>
+                <p class="card-text"><i class="fas fa-map-marker-alt "></i>&nbsp;{{business.address}}</p>
+                <p class="card-text"><i class="fas fa-paper-plane"></i>&nbsp;{{business.email}}</p>
+
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="card text-center">
+            <div class="card-body">
+                <p class="card-text">There's no businesses posted in this neighborhood</p>
+            </div>
+
+        </div>
+        {% endif %}
+
+
+
+
+    </div>
+    <hr>
+</div>
+
+<div class="container text-center"style="font-family: 'Hind Siliguri', sans-serif;" >
+    <h5 class="text-center"><strong style="text-transform: uppercase;">Word On The street</strong>&nbsp;/<small><a href="{% url 'post' hood.id %}"><i
+                    class="fas fa-plus-square"></i>Add a post</a></small></h5>
+    <hr class="mb-3">
+    {% if posts%}
+    {% for post in posts%}
+    <h6><span style="text-decoration: underline;">{{post.title}}</span></h6>
+    <p><strong><span class="float-left"><i class="fas fa-user-circle"></i><span
+                    style="color:rgb(48, 189, 2)">{{post.user.username|title}}</span>:&nbsp;
+                {{post.description}}</span></strong>
+    </p>
+    <p class="mt-5"><small>{{post.posted_on|timesince}} &nbsp;ago<i class="far fa-clock"></i></small></p>
+    <hr>
+   
+    {% endfor %}
+    {% else %}
+    <p class="text-center"> There's no post yet in this neighborhood!</p>
+
+    {% endif %}
+</div>
+
+
+
+
+
+{% endblock %}
