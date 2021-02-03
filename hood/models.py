@@ -15,6 +15,8 @@ class Hood(models.Model):
     )
     name = models.CharField(max_length=200)
     image = CloudinaryField('image')
+    admin = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name='neighborhood')
+    description = models.TextField(null=True)
     residents = models.IntegerField(blank=True)
     location = models.CharField(max_length=200,choices=locations)
     police=models.IntegerField(null=True,blank=True)
@@ -46,7 +48,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     bio = models.CharField(max_length=500)
     name = models.CharField(max_length=300)
-    hood = models.ForeignKey(Hood, on_delete=models.CASCADE, null=True)
+    hood = models.ForeignKey(Hood,on_delete=models.SET_NULL, null=True,blank=True,related_name='population')
     location = models.CharField(max_length=100,blank=True,null=True)
 
     def __str__(self):
@@ -66,10 +68,10 @@ class Profile(models.Model):
         instance.profile.save()
 
 class Post(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='poster')
     title = models.CharField(max_length=200,null=True)
     description = models.TextField()
-    neighborhood = models.ForeignKey(Hood,on_delete=models.CASCADE,related_name='poster')
+    hood = models.ForeignKey(Hood,on_delete=models.CASCADE,related_name='hood_poster')
     posted_on = models.DateTimeField(auto_now_add=True)
     
 
@@ -78,7 +80,9 @@ class Post(models.Model):
 
 class Business(models.Model):
     name= models.CharField(max_length=200)
+    address = models.CharField(max_length=500,null=True)
     email= models.EmailField(max_length=300)
+    image = CloudinaryField('image', null = True)
     description = models.TextField(blank=True)
     hood = models.ForeignKey(Hood,on_delete=models.CASCADE,related_name='business')
     user = models.ForeignKey(User,on_delete =models.CASCADE,related_name='owner')
@@ -91,7 +95,8 @@ class Business(models.Model):
     
     def delete_business(self):
         self.delete()
-    
+
+ 
     @classmethod
     def search_business(cls,search_term):
         return cls.objects.filter(name__icontains = search_term).all()
