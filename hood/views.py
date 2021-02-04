@@ -66,6 +66,7 @@ def hood(request,hood_id):
     print(businesses)
     return render(request,'hoods.html',{"hood_name":hood_name,"hood":hood,"posts":posts,"businesses":businesses})
 
+@login_required(login_url='login')
 def search_results(request):
     if 'search' in request.GET and request.GET['search']:
         search_term = request.GET.get('search')

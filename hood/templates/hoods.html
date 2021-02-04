@@ -10,6 +10,8 @@
         {{hood.location|title}}&nbsp;
         <span><strong>/{{hood.population.count}}</strong>&nbsp; Member{{hood.population.count|pluralize}}</span>
     </h5>
+    <p class="text-center"><small>with a population of:&nbsp;{{hood.residents}}</small></p>
+
     <p class="text-center" style="font-family: 'Hind Siliguri', sans-serif;">{{hood.description}}</p>
     {% if request.user.profile.hood == hood %}
     <a href="{% url 'leave' hood.id %}" class="btn btn-outline-danger btn-sm float-right">Leave Hood</a>
@@ -59,45 +61,63 @@
         </div>
     </div>
 </div>
-<div class="container-fluid mt-5"style="font-family: 'Hind Siliguri', sans-serif;">
+<div class="container-fluid mt-5" style="font-family: 'Hind Siliguri', sans-serif;">
 
-    <h5 class="text-center"><strong style="text-transform: uppercase;">Business in {{hood.location}}</strong>&nbsp;/<small><a
-                href="{% url 'upload_busines' hood.id %}"><i class="fas fa-plus-square"></i>Add a
+    <h5 class="text-center"><strong style="text-transform: uppercase;">Business in
+            {{hood.location}}</strong>&nbsp;/<small><a href="{% url 'upload_busines' hood.id %}"><i
+                    class="fas fa-plus-square"></i>Add a
                 business</a></small></h5>
     <hr class="mb-3">
-    <div class="card-columns">
+    <div class="container">
         {% if businesses %}
-        {% for business in businesses %}
-        <div class="card">
-            <img class="card-img-top" src="{{business.image.url}}" alt="{{business.name}}">
-            <div class="card-body">
-                <h5 class="card-title font-weight-bold text-center">{{business.name|title}}</h5>
-                <p class="card-text">{{business.description}}</p>
-                <p class="card-text"><i class="fas fa-map-marker-alt "></i>&nbsp;{{business.address}}</p>
-                <p class="card-text"><i class="fas fa-paper-plane"></i>&nbsp;{{business.email}}</p>
 
+        <div class="row">
+            {% for business in businesses %}
+            <div class="col">
+                <div class="card shadow-sm p-3 mb-5 bg-white rounded">
+                    <img class="card-img-top" src="{{business.image.url}}" alt="{{business.name}}">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-center" style="color:rgb(1, 1, 75)">{{business.name|title}}</h5>
+                        <p class="card-text">{{business.description}}</p>
+                        <p class="card-text"><i class="fas fa-map-marker-alt "></i>&nbsp;{{business.address}}</p>
+                        <p class="card-text"><i class="fas fa-paper-plane"></i>&nbsp;{{business.email}}</p>
+
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:2 %}
             </div>
         </div>
-        {% endfor %}
-        {% else %}
-        <div class="card text-center">
-            <div class="card-body">
-                <p class="card-text">There's no businesses posted in this neighborhood</p>
+        <div class="row">
+            <div class="col-12">
+                <hr>
             </div>
-
+            {% else %}
         </div>
         {% endif %}
 
 
+        {% endfor %}
+    </div>
 
+    {% else %}
+    <div class="card text-center">
+        <div class="card-body">
+            <p class="card-text">There's no businesses posted in this neighborhood</p>
+        </div>
 
     </div>
-    <hr>
+    {% endif %}
+
+
+
+
+</div>
+<hr>
 </div>
 
-<div class="container text-center"style="font-family: 'Hind Siliguri', sans-serif;" >
-    <h5 class="text-center"><strong style="text-transform: uppercase;">Word On The street</strong>&nbsp;/<small><a href="{% url 'post' hood.id %}"><i
-                    class="fas fa-plus-square"></i>Add a post</a></small></h5>
+<div class="container text-center" style="font-family: 'Hind Siliguri', sans-serif;margin-top: 30px;margin-bottom: 40px;">
+    <h5 class="text-center"><strong style="text-transform: uppercase;">Word On The street</strong>&nbsp;/<small><a
+                href="{% url 'post' hood.id %}"><i class="fas fa-plus-square"></i>Add a post</a></small></h5>
     <hr class="mb-3">
     {% if posts%}
     {% for post in posts%}
@@ -108,7 +128,7 @@
     </p>
     <p class="mt-5"><small>{{post.posted_on|timesince}} &nbsp;ago<i class="far fa-clock"></i></small></p>
     <hr>
-   
+
     {% endfor %}
     {% else %}
     <p class="text-center"> There's no post yet in this neighborhood!</p>

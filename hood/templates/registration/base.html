@@ -18,14 +18,28 @@
         @import url('https://fonts.googleapis.com/css2?family=Ramaraja&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap');
-   body{
-       position: relative;
-       background:url(https://res.cloudinary.com/ucynthy12/image/upload/v1612011760/1438120977e5_s0enmh.jpg);
-       height: 100vh;
-       background-size:cover;
-       background-position: center;
-   }
- 
+
+        body {
+            position: relative;
+            background: url(https://res.cloudinary.com/ucynthy12/image/upload/v1612011760/1438120977e5_s0enmh.jpg);
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .login{
+            margin-top:7%;
+            font-family: 'Ramaraja',serif;
+            font-size: large;
+        }
+        @media screen and (max-width: 768px) {
+            .login {
+                margin-top:10%;
+            }
+            .body{
+                height: 100%;
+            }
+        }
     </style>
 
 </head>
@@ -35,7 +49,7 @@
     {% block content %}
 
     {% endblock %}
-   
+
     {% block scripts%}
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

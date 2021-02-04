@@ -16,7 +16,7 @@ This is a neighborhood app where communities come together to greet newcomers, e
 
 ### Technology used
 1. Python3.6       
-1. Django 3.1.4      
+1. Django 3.1.5  
 1. Heroku      
 
 ### Known Bugs  
